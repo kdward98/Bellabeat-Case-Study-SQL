@@ -41,3 +41,5 @@ https://www.kaggle.com/datasets/arashnic/fitbit?datasetId=1041311
 Daily_activity, hourlyCalories_merged, hourlyIntensities_merged, hourlySteps_merged, SleepDay_merged, WeightLogInfo_merged
 More tables were merged and created from the original tables to gather further conclusions in my process and analysis phases
 
+This project is also available on Medium website. found [here]
+https://medium.com/@kdwardd98/bellabeat-case-study-86c66ed4aed4
