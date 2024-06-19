@@ -1,0 +1,419 @@
+##Count number of starting rows per table 
+SELECT COUNT (*)
+FROM `bellabeat-case-study-420921.bella_beat.daily_activity`
+ - -
+#940 number of rows starting- daily activity 
+SELECT COUNT (*)
+FROM `bellabeat-case-study-420921.bella_beat.hourlyCalories_merged`
+ - -
+#22099 starting row number- hourly calories merged 
+SELECT COUNT(*)
+FROM `bellabeat-case-study-420921.bella_beat.hourlyIntensities_merged`
+ - -
+#22099 starting row number- hourly intensities merged
+SELECT COUNT(*)
+FROM `bellabeat-case-study-420921.bella_beat.hourlySteps_merged`
+ - -
+#22099 starting row number- hourly steps merged 
+SELECT COUNT(*)
+FROM `bellabeat-case-study-420921.bella_beat.sleepDay_merged`
+ - -
+#410 starting row number - sleep day merged 
+##Check distinct ID number 
+SELECT count (DISTINCT(Id))
+FROM `bellabeat-case-study-420921.bella_beat.daily_activity`
+ - -
+#33 distinct ID numbers 
+SELECT count (DISTINCT(Id))
+FROM `bellabeat-case-study-420921.bella_beat.hourlyCalories_merged`
+ - -
+#33 distinct ID numbers 
+SELECT count(DISTINCT(Id))
+FROM `bellabeat-case-study-420921.bella_beat.hourlyIntensities_merged`
+ - -
+#33 distinct ID numbers 
+
+SELECT count(DISTINCT(Id))
+FROM `bellabeat-case-study-420921.bella_beat.hourlySteps_merged`
+ - -
+#33 distinct ID numbers
+SELECT count(DISTINCT(Id))
+FROM `bellabeat-case-study-420921.bella_beat.sleepDay_merged`
+ - -
+#25 distinct ID numbers
+SELECT count(DISTINCT(Id))
+FROM `bellabeat-case-study-420921.bella_beat.hourlySteps_merged`
+ - -
+#33 distinct ID numbers
+
+---
+##Checking duplicates per table 
+SELECT Id,ActivityDate,TotalSteps,Count(*)
+FROM `bellabeat-case-study-420921.bella_beat.daily_activity`
+GROUP BY Id,ActivityDate,TotalSteps
+HAVING Count (*) >1;
+---
+#0 duplicates found
+
+SELECT Id,ActivityHour,Calories, Count(*)
+FROM `bellabeat-case-study-420921.bella_beat.hourlyCalories_merged`
+GROUP BY Id,ActivityHour,Calories
+HAVING Count(*) >1;
+---
+#0 duplicates found 
+
+SELECT Id,ActivityHour,TotalIntensity,Count(*)
+FROM `bellabeat-case-study-420921.bella_beat.hourlyIntensities_merged`
+GROUP BY Id,ActivityHour,TotalIntensity
+HAVING Count(*) >1;
+---
+#0 duplicates found
+
+SELECT Id,ActivityHour,StepTotal
+FROM `bellabeat-case-study-420921.bella_beat.hourlySteps_merged`
+GROUP BY Id,ActivityHour,StepTotal
+HAVING Count(*) >1;
+---
+#0 duplicates found
+
+SELECT Id,SleepDay,TotalSleepRecords
+FROM `bellabeat-case-study-420921.bella_beat.sleepDay_merged`
+GROUP BY Id,SleepDay,TotalSleepRecords
+HAVING Count(*) >1;
+#3 duplicates found- TotalSleepRecords
+
+
+##Deleting duplicates from SleepDay Table 
+CREATE TABLE `bellabeat-case-study-420921.bella_beat.sleepDay`AS 
+SELECT DISTINCT *
+FROM `bellabeat-case-study-420921.bella_beat.sleepDay_merged`;
+
+DROP table `bellabeat-case-study-420921.bella_beat.sleepDay_merged`;
+
+ALTER TABLE `bellabeat-case-study-420921.bella_beat.sleepDay`
+RENAME TO `sleepDay_merged`;
+---
+##Checking Tables for Null values 
+SELECT *
+FROM `bellabeat-case-study-420921.bella_beat.daily_activity`
+WHERE Id IS NULL
+---
+#0 null values 
+
+SELECT *
+FROM `bellabeat-case-study-420921.bella_beat.hourlyCalories_merged`
+WHERE Id IS NULL
+---
+#0 null values 
+
+SELECT *
+FROM `bellabeat-case-study-420921.bella_beat.sleepDay_merged`
+WHERE Id IS NULL
+---
+#0 null values 
+
+SELECT *
+FROM `bellabeat-case-study-420921.bella_beat.hourlyIntensities_merged`
+WHERE Id IS NULL
+---
+#0 null values
+
+SELECT *
+FROM `bellabeat-case-study-420921.bella_beat.hourlySteps_merged`
+WHERE Id IS NULL
+---
+#0 null values
+
+---
+#Count total logs of fitbit usage by ID number 
+SELECT DISTINCT Id,
+COUNT(Id) AS logs,
+FROM `bellabeat-case-study-420921.bella_beat.daily_activity`
+GROUP BY Id
+ORDER BY Id
+---
+SELECT DISTINCT
+ActivityHour,
+SUM(StepTotal) AS Total_Steps_per_Hour
+FROM `bellabeat-case-study-420921.bella_beat.hourlySteps_merged`
+GROUP BY ActivityHour
+ORDER BY Total_Steps_per_Hour DESC
+LIMIT 20
+---
+#Avg steps per distinct hour per day
+SELECT DISTINCT ActivityHour,
+AVG(StepTotal) as total_steps_avg  
+FROM `bellabeat-case-study-420921.bella_beat.hourlySteps_merged`
+GROUP BY ActivityHour
+ORDER BY length(ActivityHour) ASC
+---
+SELECT Id,
+AVG(TotalSteps) AS Avg_Total_Steps,
+   CASE
+WHEN avg(TotalSteps) < 4999 THEN 'Non Active User'
+WHEN avg(TotalSteps) BETWEEN 5000 AND 7499 THEN 'Low Active User'
+WHEN avg(TotalSteps) BETWEEN 7500 AND 9999 THEN 'Average Active User'
+WHEN avg(TotalSteps) BETWEEN 10000 AND 12499 THEN 'Active User'
+WHEN avg(TotalSteps) >= 12500 THEN 'Very Active User'
+   END 
+FROM `bellabeat-case-study-420921.bella_beat.daily_activity`
+GROUP BY Id
+LIMIT 20
+---
+#How much activities users perform on avg 
+SELECT DISTINCT Id,
+ COUNT(Id) AS logs,
+ AVG(TotalSteps) AS avg_total_steps,
+ AVG(TotalDistance) AS avg_total_distance, 
+ AVG(VeryActiveMinutes) AS avg_very_min,
+ AVG(FairlyActiveMinutes) AS avg_fair_min,
+ AVG(LightlyActiveMinutes) AS avg_light_min,
+ AVG(SedentaryMinutes) AS avg_sedentary_min,
+ AVG(Calories) AS avg_calories_burned
+FROM `bellabeat-case-study-420921.bella_beat.daily_activity`
+GROUP BY Id
+ORDER BY Id
+---
+#Create activity day of week table 
+SELECT ActivityDate,
+  format_date('%A',ActivityDate) as day_of_week
+FROM `bellabeat-case-study-420921.bella_beat.daily_activity`
+
+#Create activity week table
+SELECT ActivityDate,
+  format_date('%W',ActivityDate) as week
+FROM `bellabeat-case-study-420921.bella_beat.daily_activity`
+
+SELECT *
+FROM `bellabeat-case-study-420921.bella_beat.activity_week`
+WHERE week = "15"
+
+SELECT *
+FROM `bellabeat-case-study-420921.bella_beat.activity_week`
+WHERE week = "19"
+#week 15 = 4/12/16 - 4/17/16
+#week 16 = 4/18/16 - 4/24/16
+#week 17 = 4/25/16 - 5/1/16
+#week 18 = 5/2/16 - 5/8/16
+#week 19 = 5/9/16 - 5/12/16
+---
+#Create daily_weekday_merge table from daily_activity and daily_activity_weekday
+SELECT daily_activity.Id,daily_activity.TotalSteps,daily_activity.TotalDistance,daily_activity.TrackerDistance,daily_activity.LoggedActivitiesDistance,daily_activity.VeryActiveDistance,daily_activity.ModeratelyActiveDistance,daily_activity.LightActiveDistance,daily_activity.SedentaryActiveDistance,daily_activity.VeryActiveMinutes,daily_activity.FairlyActiveMinutes,daily_activity.LightlyActiveMinutes,daily_activity.SedentaryMinutes,daily_activity.Calories,daily_activity.ActivityDate,daily_activity_weekday.day_of_week
+FROM `bellabeat-case-study-420921.bella_beat.daily_activity` AS daily_activity
+INNER JOIN `bellabeat-case-study-420921.bella_beat.daily_activity_weekday` AS daily_activity_weekday
+ON daily_activity.ActivityDate = daily_activity_weekday.ActivityDate;
+---
+# Active minute level based on category 
+
+SELECT 
+ MIN(veryactiveminutes) as veryactivemin_min, 
+ MIN(fairlyactiveminutes) as fairlyactivemin_min,
+ MIN(lightlyactiveminutes) as lightlyactivemin_min,
+ MIN(sedentaryminutes) as sedentary_min_min,
+ MAX(veryactiveminutes) as veryactivemin_max,
+ MAX(fairlyactiveminutes) as fairlyactivemin_max,
+ MAX(lightlyactiveminutes) as lightlyactivemin_max,
+ MAX(sedentaryminutes) as sedentarymin_max,
+ AVG(veryactiveminutes) as veryactivemin_avg,
+ AVG(fairlyactiveminutes) as fairlyactivemin_avg,
+ AVG(lightlyactiveminutes) as lightlyactivemin_avg,
+ AVG(veryactiveminutes) as veryactivemin_avg
+FROM `bellabeat-case-study-420921.bella_beat.daily_activity`
+---
+#min, max and average of total steps, total distance,calories
+# from daily calories 
+SELECT 
+ MIN(totalsteps) as total_steps_min, 
+ MIN(totaldistance) as total_distance_min,
+ MIN(calories) as calories_min,
+ MAX(totalsteps) as total_steps_max,
+ MAX(totaldistance) as total_distance_max,
+ MAX(calories) as calories_max,
+ AVG(totalsteps) as total_steps_avg,
+ AVG(totaldistance) as total_distance_avg,
+ AVG(calories) as calories_avg
+FROM `bellabeat-case-study-420921.bella_beat.daily_activity`
+---
+#sleepday min max avg
+SELECT 
+ MIN(totalsleeprecords) as total_sleeprecords_min, 
+ MIN(totalminutesasleep) as total_minutesasleep_min,
+ MIN(totaltimeinbed) as total_timeinbed_min,
+ MAX(totalsleeprecords) as total_sleeprecords_max,
+ MAX(totalminutesasleep) as total_minutesasleep_max,
+ MAX(totaltimeinbed) as total_timeinbed_max,
+ AVG(totalsleeprecords) as total_sleeprecords_avg,
+ AVG(totalminutesasleep) as total_minutesasleep_avg,
+ AVG(totaltimeinbed) as total_timeinbed_avg
+FROM `bellabeat-case-study-420921.bella_beat.sleepDay_merged`
+---
+#create table with sleepday and daily weekday merge 
+SELECT daily_weekday_merged.Id,daily_weekday_merged.TotalSteps,daily_weekday_merged.TotalDistance,daily_weekday_merged.TrackerDistance,daily_weekday_merged.LoggedActivitiesDistance,daily_weekday_merged.VeryActiveDistance,daily_weekday_merged.ModeratelyActiveDistance,daily_weekday_merged.LightActiveDistance,daily_weekday_merged.SedentaryActiveDistance,daily_weekday_merged.VeryActiveMinutes,daily_weekday_merged.FairlyActiveMinutes,daily_weekday_merged.LightlyActiveMinutes,daily_weekday_merged.SedentaryMinutes,
+daily_weekday_merged.Calories,daily_weekday_merged.ActivityDate,daily_weekday_merged.day_of_week ,sleepDay_merged.SleepDay,sleepDay_merged.TotalSleepRecords,sleepDay_merged.TotalMinutesAsleep,
+sleepDay_merged.TotalTimeInBed
+FROM `bellabeat-case-study-420921.bella_beat.daily_weekday_merged ` AS daily_weekday_merged
+INNER JOIN `bellabeat-case-study-420921.bella_beat.sleepDay_merged` AS sleepDay_merged
+ON daily_weekday_merged.Id = sleepDay_merged.Id;
+---
+#Average sleep times based on user (saved as table)
+SELECT Id, 
+AVG(totalminutesasleep)/60 as avg_sleep_time_hour,
+AVG(totaltimeinbed)/60 as avg_time_bed_hour,
+AVG(totaltimeinbed - totalminutesasleep) as nonsleep_bed_time_min
+FROM `bellabeat-case-study-420921.bella_beat.dws_merged`
+GROUP BY Id
+#25 users 
+---
+SELECT 
+AVG(Calories) as calories_avg,
+MIN(Calories) as calories_min,
+MAX(Calories) as calories_max,
+FROM `bellabeat-case-study-420921.bella_beat.hourlyCalories_merged`;
+#avg calories- 97.38, min calories-42,max calories- 948
+---
+SELECT AVG(Calories)
+FROM `bellabeat-case-study-420921.bella_beat.activity_week_dws`
+GROUP BY day_of_week                                        
+ORDER BY                        
+     CASE                       
+          WHEN day_of_week = 'Sunday' THEN 1   
+          WHEN day_of_week = 'Monday' THEN 2
+          WHEN day_of_week= 'Tuesday' THEN 3
+          WHEN day_of_week= 'Wednesday' THEN 4
+          WHEN day_of_week= 'Thursday' THEN 5
+          WHEN day_of_week = 'Friday' THEN 6
+          WHEN day_of_week = 'Saturday' THEN 7
+     END 
+---
+#number of steps variartion by day 
+SELECT day_of_week, AVG(TotalSteps) AS total_avg_steps                     
+FROM `bellabeat-case-study-420921.bella_beat.daily_weekday_merged `
+GROUP BY day_of_week                                          
+ORDER BY                        
+     CASE                       
+          WHEN day_of_week = 'Sunday' THEN 1   
+          WHEN day_of_week = 'Monday' THEN 2
+          WHEN day_of_week= 'Tuesday' THEN 3
+          WHEN day_of_week= 'Wednesday' THEN 4
+          WHEN day_of_week = 'Thursday' THEN 5
+          WHEN day_of_week = 'Friday' THEN 6
+          WHEN day_of_week = 'Saturday' THEN 7
+     END 
+#saved as table 
+---
+#total sum distance per day - kilometers 
+
+SELECT day_of_week, SUM(TotalDistance) AS sum_distance                     
+FROM `bellabeat-case-study-420921.bella_beat.daily_weekday_merged `
+GROUP BY day_of_week                                          
+ORDER BY                        
+     CASE                       
+          WHEN day_of_week = 'Sunday' THEN 1   
+          WHEN day_of_week = 'Monday' THEN 2
+          WHEN day_of_week= 'Tuesday' THEN 3
+          WHEN day_of_week= 'Wednesday' THEN 4
+          WHEN day_of_week = 'Thursday' THEN 5
+          WHEN day_of_week = 'Friday' THEN 6
+          WHEN day_of_week = 'Saturday' THEN 7
+     END 
+  ---
+  #avg times in bed and not asleep per day of week
+SELECT day_of_week, AVG(TotalMinutesAsleep) AS total_min_sleep,AVG(TotaltimeInBed) AS total_time_in_bed                   
+FROM `bellabeat-case-study-420921.bella_beat.dws_merged`
+GROUP BY  day_of_week                                        
+ORDER BY                        
+     CASE                       
+          WHEN day_of_week = 'Sunday' THEN 1   
+          WHEN day_of_week = 'Monday' THEN 2
+          WHEN day_of_week= 'Tuesday' THEN 3
+          WHEN day_of_week= 'Wednesday' THEN 4
+          WHEN day_of_week= 'Thursday' THEN 5
+          WHEN day_of_week = 'Friday' THEN 6
+          WHEN day_of_week = 'Saturday' THEN 7
+     END 
+  ---
+  #minute type and total intenisty averages per weekday 
+SELECT day_of_week, 
+AVG(VeryActiveMinutes) AS veryactive_min,
+AVG(FairlyActiveMinutes) AS fairlyactive_min,
+AVG(LightlyActiveMinutes) AS lighlyactive_min,
+AVG(SedentaryMinutes) AS sedentary_min,
+AVG(TotalIntensity) AS total_intensity,
+AVG(AverageIntensity) AS avg_intensity,           
+FROM `bellabeat-case-study-420921.bella_beat.Intensity_dailyw`
+GROUP BY day_of_week                                        
+ORDER BY                        
+     CASE                       
+          WHEN day_of_week = 'Sunday' THEN 1   
+          WHEN day_of_week = 'Monday' THEN 2
+          WHEN day_of_week= 'Tuesday' THEN 3
+          WHEN day_of_week= 'Wednesday' THEN 4
+          WHEN day_of_week= 'Thursday' THEN 5
+          WHEN day_of_week = 'Friday' THEN 6
+          WHEN day_of_week = 'Saturday' THEN 7
+     END 
+---
+#total sleep per day
+SELECT SleepDay, AVG(TotalMinutesAsleep) AS total_min_sleep,AVG(TotaltimeInBed) AS total_time_in_bed                   
+FROM `bellabeat-case-study-420921.bella_beat.dws_merged`
+GROUP BY SleepDay                                         
+ORDER BY                        
+     CASE                       
+          WHEN SleepDay = 'Sunday' THEN 1   
+          WHEN SleepDay = 'Monday' THEN 2
+          WHEN SleepDay= 'Tuesday' THEN 3
+          WHEN SleepDay= 'Wednesday' THEN 4
+          WHEN SleepDay= 'Thursday' THEN 5
+          WHEN SleepDay = 'Friday' THEN 6
+          WHEN SleepDay = 'Saturday' THEN 7
+     END 
+---
+#Create a merged daily_activity weekday and hourly intensity table 
+SELECT daily_weekday_merged.Id,daily_weekday_merged.TotalSteps,daily_weekday_merged.TotalDistance,daily_weekday_merged.TrackerDistance,daily_weekday_merged.LoggedActivitiesDistance,daily_weekday_merged.VeryActiveDistance,daily_weekday_merged.ModeratelyActiveDistance,daily_weekday_merged.LightActiveDistance,daily_weekday_merged.SedentaryActiveDistance,daily_weekday_merged.VeryActiveMinutes,daily_weekday_merged.FairlyActiveMinutes,daily_weekday_merged.LightlyActiveMinutes,daily_weekday_merged.SedentaryMinutes,
+daily_weekday_merged.Calories,daily_weekday_merged.ActivityDate,daily_weekday_merged.day_of_week,hourlyIntensities_merged.ActivityHour,hourlyIntensities_merged.TotalIntensity,
+hourlyIntensities_merged.AverageIntensity
+FROM `bellabeat-case-study-420921.bella_beat.daily_weekday_merged ` as daily_weekday_merged
+INNER JOIN `bellabeat-case-study-420921.bella_beat.hourlyIntensities_merged` as hourlyIntensities_merged
+ON daily_weekday_merged.Id = hourlyintensities_merged.Id;
+---
+#create merged table with activity info, sleep info and add week numbers 
+SELECT dws_merged.Id,dws_merged.TotalSteps,dws_merged.TotalDistance,dws_merged.TrackerDistance,dws_merged.LoggedActivitiesDistance,dws_merged.VeryActiveDistance,dws_merged.ModeratelyActiveDistance,dws_merged.LightActiveDistance,dws_merged.SedentaryActiveDistance,dws_merged.VeryActiveMinutes,dws_merged.FairlyActiveMinutes,dws_merged.LightlyActiveMinutes,dws_merged.SedentaryMinutes,
+dws_merged.Calories,dws_merged.ActivityDate,dws_merged.day_of_week,dws_merged.SleepDay,dws_merged.TotalSleepRecords,dws_merged.TotalminutesAsleep,dws_merged.TotalTimeInBed,activity_week.week
+FROM `bellabeat-case-study-420921.bella_beat.dws_merged` as dws_merged
+INNER JOIN  `bellabeat-case-study-420921.bella_beat.activity_week` as activity_week
+ON dws_merged.ActivityDate = activity_week.ActivityDate;
+---
+SELECT weightLogInfo_merged.Id,weightLogInfo_merged.Date,weightLogInfo_merged.WeightKg,weightLogInfo_merged.WeightPounds,weightLogInfo_merged.Fat,weightLogInfo_merged.BMI,weightLogInfo_merged.IsManualReport,weightLogInfo_merged.LogId,weight_w_logs.logs,
+FROM `bellabeat-case-study-420921.bella_beat.weightLogInfo_merged` AS weightLogInfo_merged
+INNER JOIN `bellabeat-case-study-420921.bella_beat.weight_w_logs` AS weight_w_logs
+ON weightLogInfo_merged.id = weight_w_logs.id;
+---
+SELECT DISTINCT Id,
+COUNT(Id) AS logs,
+AVG(WeightPounds) as avg_weight_lbs,
+AVG(BMI) as avg_bmi,
+FROM `bellabeat-case-study-420921.bella_beat.weightLogInfo_merged`
+GROUP BY Id
+---
+SELECT
+AVG (WeightPounds) as total_avg_weight_lbs,
+AVG (BMI) as avg_bmi,
+FROM `bellabeat-case-study-420921.bella_beat.weightLogInfo_merged`
+#results show that only 8 IDs logged weight data and bmi consecutively out off the 33
+#total_avg_weight_lbs is 158.8 
+#total_avg_bmi is 25.18
+---
+SELECT week,AVG(VeryActiveMinutes) AS veryactive_mins, AVG(FairlyActiveMinutes) AS fairlyactive_mins,AVG(LightlyActiveMinutes) AS lightlyactive_mins,AVG(SedentaryMinutes) AS sedentary_mins,AVG(TotalMinutesAsleep) AS totalmins_asleep, AVG(TotalTimeInBed) AS totaltimein_bed
+FROM `bellabeat-case-study-420921.bella_beat.activity_week_dws`
+GROUP BY week                                       
+ORDER BY                      
+     CASE                       
+          WHEN week = '15' THEN 15   
+          WHEN week= '16' THEN 16
+          WHEN week= '17' THEN 17
+          WHEN week= '18' THEN 18
+          WHEN week= '19' THEN 19
+     END 
+----
+
+
