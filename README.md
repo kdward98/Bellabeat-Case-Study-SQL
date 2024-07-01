@@ -43,3 +43,82 @@ More tables were merged and created from the original tables to gather further c
 
 This project is also available on Medium website. found [here]
 https://medium.com/@kdwardd98/bellabeat-case-study-86c66ed4aed4
+
+## Tables 
+
+number of users and logs 
+![# of users and logs ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/2e14843e-ce2b-4f30-ae19-b38f578c46a9)
+min max avg active min levels 
+![active min level](https://github.com/kdward98/bellabeat-SQL/assets/169955848/5aa51225-371f-48db-aaff-3a97e9ddf7bc)
+calories 
+![calories ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/6992c35f-3c93-4fe8-9c2b-8c3737c3d0e8)
+avg total steps per user type
+![avg total steps:user type](https://github.com/kdward98/bellabeat-SQL/assets/169955848/7c8b0568-e7e2-4104-8e73-b8ed8119746a)
+total time in bed/ mins asleep
+![sleep:total time in bed](https://github.com/kdward98/bellabeat-SQL/assets/169955848/ed6c4ca8-ba7e-410c-8ace-5701de54fc65)
+total steps per hour
+![total steps per hour ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/937e685e-5842-4afb-8066-b046ba25203d)
+min,max and avg distance, calories,total steps 
+![total steps:distance ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/58d4169e-c443-4265-b2e5-891f7c05aef5)
+avg weight/bmi
+![avg weight:bmi](https://github.com/kdward98/bellabeat-SQL/assets/169955848/a8b78d46-1fee-4b6c-8ca9-c77693745a41)
+logs for avg weight/bmi
+![weight logs](https://github.com/kdward98/bellabeat-SQL/assets/169955848/34835b6a-d46d-4541-b787-94aff9ac8f75)
+sum of distance per weekday 
+![day of week:sum distance ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/61b3042c-cd56-4f93-9e7c-44cb909829e8)
+avg total steps per hour 
+![average total steps per hour ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/8f91c40a-40e1-44a4-8c5b-81bd3d35d0f6)
+avg calories per day 
+![avg calories per day ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/322e579d-4a91-4d92-9283-f6a5d60ab5af)
+time in bed/mins asleep per weekday 
+![min asleep:time in bed per weekday](https://github.com/kdward98/bellabeat-SQL/assets/169955848/0d37b830-7056-40c8-8aa0-a5d24f32057a)
+sleep time per id 
+![sleeptime per id ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/8131f56c-4bc1-4569-a4d9-9f737220fd53)
+total avg steps per weekday 
+![total avg steps per weekday](https://github.com/kdward98/bellabeat-SQL/assets/169955848/80d7483b-b481-428e-aef0-650977162d11)
+active mins per week 
+![active mins per week](https://github.com/kdward98/bellabeat-SQL/assets/169955848/b6f91b5e-d662-4b21-b9a1-e86b058a1a79)
+active mins per weekday 
+![active mins per weekday](https://github.com/kdward98/bellabeat-SQL/assets/169955848/25acbe19-7b7d-47df-ac68-4e0f2e04ab5c)
+avg mins per id 
+![avg min per id ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/4e2dd816-23fc-4ad0-8259-5d4f695b5279)
+
+## Visualizations 
+
+![active mins ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/9ba26333-8933-409f-996c-d8696cfdcfed)
+
+![avg step total ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/fe1e9f50-58b3-426f-baa8-6d8e21fd5166)
+
+![avg step per activity hour ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/67d16aa9-b03e-424c-b4f2-d7089cd8580e)
+
+![calories:fairly active mins ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/0fd60250-0ac1-4c5e-a682-0b7f68f0f5b5)
+
+![calories:light active mins ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/abb0d498-305e-4747-b8df-853c14a91b36)
+
+![calories :very active mins ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/6b553da2-f48a-44bb-905a-8a347bb99857)
+
+![weight logs per id ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/ac9f8f95-18bc-4b66-b599-20f10a628e3a)
+
+![percentage of user types ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/508250a5-c9f4-411d-aa9e-54b8ed83609c)
+
+![avg mins asleep per weekday ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/0cddbde9-a471-4689-8d19-580f8e696116)
+
+![active mins per weekday ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/e1250067-e6b9-4c71-ac28-34ef934ccfc3)
+
+![sleep and nonsleep bedtime ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/8c140d53-c4fd-4ac6-b3c2-36de22d993eb)
+
+![step total per activity hour ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/d262fc99-fac4-41a9-ac0e-3a1fb499f2b7)
+
+![total avg steps per day of week ](https://github.com/kdward98/bellabeat-SQL/assets/169955848/d339e770-98f3-4992-82f2-147ca0e1513c)
+
+
+
+
+
+
+
+
+
+
+
+
